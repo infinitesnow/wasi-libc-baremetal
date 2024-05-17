@@ -45,6 +45,7 @@ void __cxa_finalize(void *dso)
 
 int __cxa_atexit(void (*func)(void *), void *arg, void *dso)
 {
+#if 0
 	LOCK(lock);
 
 	/* Defer initialization of head so it can be in BSS */
@@ -68,6 +69,7 @@ int __cxa_atexit(void (*func)(void *), void *arg, void *dso)
 	slot++;
 
 	UNLOCK(lock);
+#endif
 	return 0;
 }
 
@@ -78,5 +80,9 @@ static void call(void *p)
 
 int atexit(void (*func)(void))
 {
+#if 0
 	return __cxa_atexit(call, (void *)(uintptr_t)func, 0);
+#else
+	return 0;
+#endif
 }
